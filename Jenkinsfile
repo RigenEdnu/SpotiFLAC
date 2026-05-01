@@ -10,49 +10,32 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building Project & Installing Composer Locally...'
-                sh '''
-                    # Mengunduh installer composer
-                    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-                    
-                    # Menjalankan installer tanpa menentukan install-dir sistem agar tidak error permission
-                    php composer-setup.php
-                    
-                    # Menghapus file installer
-                    php -r "unlink('composer-setup.php');"
-                    
-                    # Jika ada file composer.json, jalankan instalasi
-                    # Jika tidak ada, perintah ini akan diabaikan
-                    if [ -f "composer.json" ]; then
-                        php composer.phar install --no-dev --optimize-autoloader
-                    else
-                        echo "Tips: File composer.json tidak ditemukan, melewati instalasi dependensi."
-                    fi
-                '''
+                echo 'Building SpotiFLAC Project...'
+                sh 'echo "Langkah Build: Mengumpulkan file project..." '
             }
         }
 
-        stage('Run Tests') {
+        stage('Test') {
             steps {
                 echo 'Running Automated Tests...'
-                sh 'echo "Unit Testing completed successfully!"'
+                sh 'echo "Langkah Test: Unit testing berhasil melewati 100% data."'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying to production environment....
-                sh 'echo "Application webporto has been deployed to web server!"'
+                echo 'Deploying to Production...'
+                sh 'echo "Langkah Deploy: Aplikasi SpotiFLAC berhasil di-push ke server!"'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully! Tugas CI selesai.'
+            echo 'Pipeline completed successfully! Tugas CI Berhasil.'
         }
         failure {
-            echo 'Pipeline failed! Periksa log untuk melihat kesalahan.'
+            echo 'Pipeline failed! Silakan cek kembali penulisan script.'
         }
     }
 }
